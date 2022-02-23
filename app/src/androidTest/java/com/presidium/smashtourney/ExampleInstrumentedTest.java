@@ -1,4 +1,4 @@
-package com.example.smashtourney;
+package com.presidium.smashtourney;
 
 import android.content.Context;
 
