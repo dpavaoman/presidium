@@ -11,8 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.presidium.smashtourney.Util.ProjectConstants;
 import com.presidium.smashtourney.dao.EventStandingsQuery;
+import com.presidium.smashtourney.domain.QueryRetrieval;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -40,58 +46,39 @@ public class MainActivity extends AppCompatActivity {
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
 		}
+		//Getting the button view
 		Button button = findViewById(R.id.button);
-		button.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Thread thread = new Thread(new Runnable() {
-					EventStandingsQuery.Data queryData = null;
+		//Setting a listener to execute when the button is pressed
+		button.setOnClickListener(v -> {
 
-					@Override
-					public void run() {
-//						String query = queryBuilder.getEventQueryString();
-						String query = "query EventStandings {\n" +
-								"  event(id: 78790) {\n" +
-								"    id\n" +
-								"    name\n" +
-								"    standings(query: {\n" +
-								"      perPage: 3,\n" +
-								"      page: 1\n" +
-								"    }){\n" +
-								"      nodes {\n" +
-								"        placement\n" +
-								"        entrant {\n" +
-								"          id\n" +
-								"          name\n" +
-								"        }\n" +
-								"      }\n" +
-								"    }\n" +
-								"  }\n" +
-								"}\n";
-						RequestBody body = new FormBody.Builder()
-								.add("query", query)
-								.build();
-
-						Request request = new Request.Builder()
-								.url(ProjectConstants.API_URL)
-								.addHeader("Authorization", ProjectConstants.API_TOKEN)
-								.post(body)
-								.build();
-						Response response = null;
-
-						try {
-							response = httpClient.newCall(request).execute();
-							queryData = queryBuilder.parseResponse(response.body().string());
-							System.out.println(queryData.toString());
-						} catch (IOException | NullPointerException e) {
-							e.printStackTrace();
-						}
-					}
-
-				});
-				thread.start();
-
-
+			//Executing the query retrieval on a different thread
+			ExecutorService executorService = Executors.newSingleThreadExecutor();
+			Future<String> future = executorService.submit(new QueryRetrieval());
+			executorService.shutdown();
+			//Shutting down the executor service because we don't need it any more
+			try {
+				if (!executorService.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+					System.out.println("timeout");
+					executorService.shutdownNow();
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				executorService.shutdownNow();
 			}
+			String result = null;
+			try {
+				result = future.get();
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
+			//updating the UI on the UI thread because that's what it's for
+			String finalResult = result;
+			runOnUiThread(() -> {
+					textView.setText(finalResult);
+
+			});
+
+
 		});
 
 		versionView.setText(versionName);
