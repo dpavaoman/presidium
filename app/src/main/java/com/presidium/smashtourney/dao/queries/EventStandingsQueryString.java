@@ -2,8 +2,8 @@ package com.presidium.smashtourney.dao.queries;
 
 public class EventStandingsQueryString {
 
-public static String query = "query EventStandings {\n" +
-								"  event(id: 78790) {\n" +
+public static String query = "query EventStandings ($eventId: ID!) {\n" +
+								"  event(id: $eventId) {\n" +
 								"    id\n" +
 								"    name\n" +
 								"    standings(query: {\n" +
