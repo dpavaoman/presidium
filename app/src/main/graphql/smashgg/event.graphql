@@ -1,0 +1,18 @@
+query EventStandings {
+    event(id: 78790) {
+        id
+        name
+        standings(query: {
+            perPage: 3,
+            page: 1
+        }){
+            nodes {
+                placement
+                entrant {
+                    id
+                    name
+                }
+            }
+        }
+    }
+}
