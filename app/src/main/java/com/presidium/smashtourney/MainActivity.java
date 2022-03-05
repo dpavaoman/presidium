@@ -5,6 +5,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,12 +49,13 @@ public class MainActivity extends AppCompatActivity {
 		}
 		//Getting the button view
 		Button button = findViewById(R.id.button);
+		EditText editText = findViewById(R.id.slugBox);
 		//Setting a listener to execute when the button is pressed
 		button.setOnClickListener(v -> {
-
+			String slug = editText.getText().toString();
 			//Executing the query retrieval on a different thread
 			ExecutorService executorService = Executors.newSingleThreadExecutor();
-			Future<String> future = executorService.submit(new QueryRetrieval());
+			Future<String> future = executorService.submit(new QueryRetrieval(slug));
 			executorService.shutdown();
 			//Shutting down the executor service because we don't need it any more
 			try {
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 			//updating the UI on the UI thread because that's what it's for
 			String finalResult = result;
 			runOnUiThread(() -> {
-					textView.setText(finalResult);
+					textView.setText("Slug" + slug + "\n" + finalResult);
 
 			});
 
