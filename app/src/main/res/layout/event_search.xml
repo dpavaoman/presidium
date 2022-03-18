@@ -4,36 +4,39 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        >
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/versionNumber"
+            android:text="Hello World!"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:id="@+id/helloWorldTextView"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-            android:text="@string/search_by_title"
+            android:text="@string/search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/titleButton"
+            android:id="@+id/search_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/eventButton"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/helloWorldTextView"
+            />
 
-    <Button
-            android:text="@string/search_by_event"
+    <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/eventButton"
+            android:inputType="text"
+            android:ems="10"
+            android:id="@+id/search_box"
+            app:layout_constraintBottom_toTopOf="@+id/search_button"
+            app:layout_constraintTop_toBottomOf="@+id/helloWorldTextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/titleButton"
-            app:layout_constraintVertical_bias="0.50" />
+            android:hint="@string/enter_tournament_slug" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

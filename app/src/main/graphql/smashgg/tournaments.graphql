@@ -1,11 +1,13 @@
-query TournamentsByVideogames($perPage: Int, $videogameIds: [ID]) {
+query TournamentsByVideogame {
     tournaments(query: {
-        perPage: $perPage
+        perPage: 3
         page: 1
         sortBy: "startAt asc"
         filter: {
-            upcoming: true
-            videogameIds: $videogameIds
+            past: false
+            videogameIds: [
+                1
+            ]
         }
     }) {
         nodes {
