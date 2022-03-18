@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/layout/activity_main.xml" value="0.4832427536231884" />
+        <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/layout/activity_tournament_search.xml" value="0.259375" />
+        <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/layout/content_tournament_search.xml" value="0.259375" />
+        <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/layout/event_search.xml" value="0.45606884057971014" />
         <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/layout/fragment_blank.xml" value="0.29583333333333334" />
       </map>
     </option>

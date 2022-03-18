@@ -5,14 +5,12 @@ import com.presidium.smashtourney.Util.ProjectConstants;
 import com.presidium.smashtourney.dao.queries.EventStandingsQueryString;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import com.presidium.smashtourney.dao.EventStandingsQuery;
@@ -20,25 +18,27 @@ import com.presidium.smashtourney.dao.EventStandingsQuery;
 
 public class QueryRetrieval implements Callable<String> {
 
-	public QueryRetrieval(String eventId) {
-		this.eventId = eventId;
+	public QueryRetrieval(Map<String, String> variables, String query, String queryType) {
+		this.variables = variables;
+		this.query = query;
+		this.queryType = queryType;
 	}
-
-
 
 	private final OkHttpClient httpClient = new OkHttpClient();
 	private final QueryBuilder queryBuilder = new QueryBuilder();
-	final String eventId;
+	final Map<String, String> variables;
+	final String query;
+	final String queryType;
 
 	@Override
 	public String call() {
 
 		EventStandingsQuery.Data queryData = null;
-		String query = EventStandingsQueryString.query;
-		RequestBody body = new FormBody.Builder()
-				.add("query", query)
-				.add("variables", String.format("{ \"eventId\" : \"%s\" }", eventId))
-				.build();
+		FormBody.Builder bodyBuilder = new FormBody.Builder().add("query", query);
+		for (Map.Entry<String, String> variable : variables.entrySet()) {
+			bodyBuilder.add("variables", String.format("{ \"%s\" : \"%s\" }", variable.getKey(), variable.getValue()));
+		}
+		FormBody body = bodyBuilder.build();
 
 		Request request = new Request.Builder()
 				.url(ProjectConstants.API_URL)
@@ -49,11 +49,15 @@ public class QueryRetrieval implements Callable<String> {
 
 		try {
 			response = httpClient.newCall(request).execute();
-			queryData = queryBuilder.parseResponse(response.body().string());
-			System.out.println(queryData);
+			if(queryType.equals("tournament")){
+				return queryBuilder.parseTournamentSearchResponse(response.body().string()).toString();
+			}
+			else {
+				return queryBuilder.parseEventStandingsResponse(response.body().string()).toString();
+			}
 		} catch (IOException | NullPointerException e) {
 			e.printStackTrace();
 		}
-		return queryData.toString();
+		return null;
 	}
 }

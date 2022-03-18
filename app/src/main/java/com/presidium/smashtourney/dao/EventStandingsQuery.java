@@ -11,6 +11,7 @@ import com.apollographql.apollo3.api.CustomScalarAdapters;
 import com.apollographql.apollo3.api.ObjectAdapter;
 import com.apollographql.apollo3.api.Query;
 import com.apollographql.apollo3.api.json.JsonWriter;
+import com.presidium.smashtourney.dao.adapter.EventStandingsQuery_ResponseAdapter;
 import com.presidium.smashtourney.dao.selections.EventStandingsQuerySelections;
 
 import java.io.IOException;
@@ -117,7 +118,7 @@ public class EventStandingsQuery implements Query<EventStandingsQuery.Data> {
   public CompiledField rootField() {
     return new CompiledField.Builder(
       "data",
-      com.presidium.smashtourney.dao.Query.type
+      com.presidium.smashtourney.dao.type.Query.type
     )
     .selections(EventStandingsQuerySelections.root)
     .build();
