@@ -3,11 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/layout/activity_tournament_search.xml" value="0.259375" />
         <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/layout/content_tournament_search.xml" value="0.259375" />
         <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/layout/event_search.xml" value="0.45606884057971014" />
         <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/layout/fragment_blank.xml" value="0.29583333333333334" />
+        <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/layout/fragment_event_search.xml" value="0.1" />
+        <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/layout/fragment_first.xml" value="0.259375" />
+        <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/layout/fragment_main.xml" value="0.259375" />
+        <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/layout/fragment_search_result_list.xml" value="0.259375" />
+        <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/layout/fragment_second.xml" value="0.259375" />
+        <entry key="..\:/Users/dpava/StudioProjects/presidium/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.4515" />
       </map>
     </option>
   </component>

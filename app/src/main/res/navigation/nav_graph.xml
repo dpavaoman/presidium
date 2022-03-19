@@ -3,26 +3,46 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/nav_graph"
-        app:startDestination="@id/FirstFragment">
+        app:startDestination="@id/mainFragment">
 
     <fragment
-            android:id="@+id/FirstFragment"
-            android:name="com.presidium.smashtourney.FirstFragment"
-            android:label="@string/first_fragment_label"
-            tools:layout="@layout/fragment_first">
-
+            android:id="@+id/searchResultFragment"
+            android:name="com.presidium.smashtourney.SearchResultFragment"
+            android:label="fragment_search_result_list"
+            tools:layout="@layout/fragment_search_result_list" >
         <action
-                android:id="@+id/action_FirstFragment_to_SecondFragment"
-                app:destination="@id/SecondFragment" />
+                android:id="@+id/action_searchResultFragment_to_placeholder2"
+                app:destination="@id/standings" />
+        <argument
+                android:name="searchResult"
+                app:argType="com.presidium.smashtourney.dao.searchResults.SearchResult[]" />
     </fragment>
     <fragment
-            android:id="@+id/SecondFragment"
-            android:name="com.presidium.smashtourney.SecondFragment"
-            android:label="@string/second_fragment_label"
-            tools:layout="@layout/fragment_second">
-
+            android:id="@+id/eventSearchFragment"
+            android:name="com.presidium.smashtourney.EventSearchFragment"
+            android:label="fragment_event_search"
+            tools:layout="@layout/fragment_event_search" >
         <action
-                android:id="@+id/action_SecondFragment_to_FirstFragment"
-                app:destination="@id/FirstFragment" />
+                android:id="@+id/action_eventSearchFragment_to_searchResultFragment"
+                app:destination="@id/searchResultFragment" />
     </fragment>
+    <fragment
+            android:id="@+id/mainFragment"
+            android:name="com.presidium.smashtourney.MainFragment"
+            android:label="fragment_main"
+            tools:layout="@layout/fragment_main" >
+        <action
+                android:id="@+id/action_mainFragment_to_eventSearchFragment"
+                app:destination="@id/eventSearchFragment"
+                app:enterAnim="@anim/nav_default_pop_enter_anim" />
+        <action
+                android:id="@+id/action_mainFragment_to_tournamentSearchFragment"
+                app:destination="@id/tournamentSearchFragment" />
+    </fragment>
+    <fragment android:id="@+id/tournamentSearchFragment" >
+        <action
+                android:id="@+id/action_tournamentSearchFragment_to_searchResultFragment"
+                app:destination="@id/searchResultFragment" />
+    </fragment>
+    <fragment android:id="@+id/standings" />
 </navigation>
