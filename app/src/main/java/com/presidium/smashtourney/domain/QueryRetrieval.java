@@ -5,6 +5,7 @@ import com.presidium.smashtourney.Util.ProjectConstants;
 import com.presidium.smashtourney.dao.queries.EventStandingsQueryString;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -14,9 +15,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import com.presidium.smashtourney.dao.EventStandingsQuery;
+import com.presidium.smashtourney.dao.searchResults.SearchResult;
 
 
-public class QueryRetrieval implements Callable<String> {
+public class QueryRetrieval implements Callable<SearchResult[]> {
 
 	public QueryRetrieval(Map<String, String> variables, String query, String queryType) {
 		this.variables = variables;
@@ -31,7 +33,7 @@ public class QueryRetrieval implements Callable<String> {
 	final String queryType;
 
 	@Override
-	public String call() {
+	public SearchResult[] call() {
 
 		EventStandingsQuery.Data queryData = null;
 		FormBody.Builder bodyBuilder = new FormBody.Builder().add("query", query);
@@ -46,17 +48,20 @@ public class QueryRetrieval implements Callable<String> {
 				.post(body)
 				.build();
 		Response response = null;
-
-		try {
-			response = httpClient.newCall(request).execute();
-			if(queryType.equals("tournament")){
-				return queryBuilder.parseTournamentSearchResponse(response.body().string()).toString();
+		int count = 0;
+		while (count < 3){
+			try {
+				response = httpClient.newCall(request).execute();
+				if (queryType.equals("tournament")) {
+					return queryBuilder.parseTournamentSearchResponse(response.body().string());
+				}
+				else {
+					return queryBuilder.parseEventStandingsResponse(response.body().string());
+				}
+			} catch (IOException | NullPointerException e) {
+				e.printStackTrace();
+				count++;
 			}
-			else {
-				return queryBuilder.parseEventStandingsResponse(response.body().string()).toString();
-			}
-		} catch (IOException | NullPointerException e) {
-			e.printStackTrace();
 		}
 		return null;
 	}

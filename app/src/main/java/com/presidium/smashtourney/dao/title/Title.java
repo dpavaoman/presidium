@@ -16,4 +16,19 @@ public enum Title {
 		this.displayName = displayName;
 	}
 
+	public String getAbbrev() {
+		return abbrev;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
 }

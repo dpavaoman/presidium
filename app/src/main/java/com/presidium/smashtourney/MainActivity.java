@@ -23,21 +23,13 @@ import okhttp3.OkHttpClient;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
-	Button searchByTitleButton;
 	TextView versionView;
-	Button searchByEventButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		searchByTitleButton = findViewById(R.id.titleButton);
-		searchByEventButton = findViewById(R.id.eventButton);
 		versionView = findViewById(R.id.versionNumber);
-
-
 
 	}
 
@@ -53,20 +45,6 @@ public class MainActivity extends AppCompatActivity {
 		}
 		versionView.setText(versionName);
 	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		searchByTitleButton.setOnClickListener(v -> {
-			Intent intent = new Intent(this, TitleSearch.class);
-			startActivity(intent);
-		});
-		searchByEventButton.setOnClickListener(v -> {
-			Intent intent = new Intent(this, EventSearch.class);
-			startActivity(intent);
-		});
-	}
-
 }
 
 

@@ -33,6 +33,7 @@ public class EventSearch extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.event_search);
 
 		button = findViewById(R.id.search_button);
@@ -52,39 +53,39 @@ public class EventSearch extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		button.setOnClickListener(v -> {
-			String eventId = editText.getText().toString();
-			//Executing the query retrieval on a different thread
-			ExecutorService executorService = Executors.newSingleThreadExecutor();
-			String query = EventStandingsQueryString.query;
-			Map<String, String> variables = new HashMap<>();
-			variables.put("eventId", eventId);
-			Future<String> future = executorService.submit(new QueryRetrieval(variables, query, "event"));
-			executorService.shutdown();
-			//Shutting down the executor service because we don't need it any more
-			try {
-				if (!executorService.awaitTermination(800, TimeUnit.MILLISECONDS)) {
-					System.out.println("timeout");
-					executorService.shutdownNow();
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				executorService.shutdownNow();
-			}
-			String result = null;
-			try {
-				result = future.get();
-			} catch (InterruptedException | ExecutionException e) {
-				e.printStackTrace();
-			}
-			//updating the UI on the UI thread because that's what it's for
-			String finalResult = result;
-			runOnUiThread(() -> {
-				display.setText("EventId" + eventId + "\n" + finalResult);
-
-			});
-
-
-		});
+//		button.setOnClickListener(v -> {
+//			String eventId = editText.getText().toString();
+//			//Executing the query retrieval on a different thread
+//			ExecutorService executorService = Executors.newSingleThreadExecutor();
+//			String query = EventStandingsQueryString.query;
+//			Map<String, String> variables = new HashMap<>();
+//			variables.put("eventId", eventId);
+//			Future<String> future = executorService.submit(new QueryRetrieval(variables, query, "event"));
+//			executorService.shutdown();
+//			//Shutting down the executor service because we don't need it any more
+//			try {
+//				if (!executorService.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+//					System.out.println("timeout");
+//					executorService.shutdownNow();
+//				}
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//				executorService.shutdownNow();
+//			}
+//			String result = null;
+//			try {
+//				result = future.get();
+//			} catch (InterruptedException | ExecutionException e) {
+//				e.printStackTrace();
+//			}
+//			//updating the UI on the UI thread because that's what it's for
+//			String finalResult = result;
+//			runOnUiThread(() -> {
+//				display.setText("EventId" + eventId + "\n" + finalResult);
+//
+//			});
+//
+//
+//		});
 	}
 }
