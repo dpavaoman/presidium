@@ -82,8 +82,7 @@ public class TournamentsByVideogameQuery implements Query<TournamentsByVideogame
   @Override
   public String toString() {
     if ($toString == null) {
-      $toString = "TournamentsByVideogameQuery{"
-        + "}";
+      $toString = OPERATION_DOCUMENT;
     }
     return $toString;
   }

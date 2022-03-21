@@ -50,7 +50,7 @@ public class MainFragment extends Fragment {
 			Navigation.findNavController(view12).navigate(action);
 		});
 		view.findViewById(R.id.eventButton).setOnClickListener(view1 -> {
-			NavDirections action = MainFragmentDirections.actionMainFragmentToEventSearchFragment();
+			NavDirections action = MainFragmentDirections.actionMainFragmentToStandingsSearchFragment();
 			Navigation.findNavController(view1).navigate(action);
 		});
 		return view;

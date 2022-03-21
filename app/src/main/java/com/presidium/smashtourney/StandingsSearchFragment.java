@@ -9,11 +9,12 @@ import android.widget.EditText;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
+import com.presidium.smashtourney.dao.EventStandingsQuery;
 import com.presidium.smashtourney.dao.queries.EventStandingsQueryString;
 import com.presidium.smashtourney.dao.searchResults.SearchResult;
-import com.presidium.smashtourney.domain.QueryRetrieval;
+import com.presidium.smashtourney.domain.QueryRetrievalCallable;
+import com.presidium.smashtourney.domain.QueryRetrievalService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,18 +26,18 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link EventSearchFragment#newInstance} factory method to
+ * Use the {@link StandingsSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EventSearchFragment extends Fragment {
+public class StandingsSearchFragment extends Fragment {
 
-	public EventSearchFragment() {
+	public StandingsSearchFragment() {
 		// Required empty public constructor
 	}
 
 
-	public static EventSearchFragment newInstance() {
-		EventSearchFragment fragment = new EventSearchFragment();
+	public static StandingsSearchFragment newInstance() {
+		StandingsSearchFragment fragment = new StandingsSearchFragment();
 		Bundle args = new Bundle();
 
 		fragment.setArguments(args);
@@ -52,36 +53,19 @@ public class EventSearchFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View view = inflater.inflate(R.layout.fragment_event_search, container, false);
+		View view = inflater.inflate(R.layout.fragment_standings_search, container, false);
 		EditText searchBox = view.findViewById(R.id.search_box);
 		view.findViewById(R.id.search_button).setOnClickListener(view1 -> {
+
 			String eventId = searchBox.getText().toString();
-			ExecutorService executorService = Executors.newSingleThreadExecutor();
-			String query = EventStandingsQueryString.query;
+
+			QueryRetrievalService service = new QueryRetrievalService();
 			Map<String, String> variables = new HashMap<>();
 			variables.put("eventId", eventId);
-			Future<SearchResult[]> future = executorService.submit(new QueryRetrieval(variables, query, "event"));
-			executorService.shutdown();
-			//Shutting down the executor service because we don't need it any more
-			try {
-				if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
-					System.out.println("timeout");
-					executorService.shutdownNow();
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				executorService.shutdownNow();
-			}
-			SearchResult[] resultList =  null;
-			try {
-				resultList = future.get();
-			} catch (InterruptedException | ExecutionException e) {
-				e.printStackTrace();
-			}
-			SearchResult[] finalResult = resultList;
+			SearchResult[] finalResult = service.getSearchResults(variables, new EventStandingsQuery());
 
 			try {
-				NavDirections action = EventSearchFragmentDirections.actionEventSearchFragmentToSearchResultFragment(finalResult);
+				NavDirections action = StandingsSearchFragmentDirections.actionStandingsSearchFragmentToSearchResultFragment(finalResult);
 				Navigation.findNavController(view).navigate(action);
 			} catch(Exception e){
 				e.printStackTrace();

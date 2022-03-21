@@ -27,7 +27,7 @@ public class EventStandingsQuery_ResponseAdapter {
 
     @Override
     public EventStandingsQuery.Data fromJson(JsonReader reader,
-											 CustomScalarAdapters customScalarAdapters) throws IOException {
+        CustomScalarAdapters customScalarAdapters) throws IOException {
       EventStandingsQuery.Event event = null;
 
       loop:
@@ -58,7 +58,7 @@ public class EventStandingsQuery_ResponseAdapter {
 
     @Override
     public EventStandingsQuery.Event fromJson(JsonReader reader,
-											  CustomScalarAdapters customScalarAdapters) throws IOException {
+        CustomScalarAdapters customScalarAdapters) throws IOException {
       String id = null;
       String name = null;
       EventStandingsQuery.Standings standings = null;
@@ -101,7 +101,7 @@ public class EventStandingsQuery_ResponseAdapter {
 
     @Override
     public EventStandingsQuery.Standings fromJson(JsonReader reader,
-												  CustomScalarAdapters customScalarAdapters) throws IOException {
+        CustomScalarAdapters customScalarAdapters) throws IOException {
       List<EventStandingsQuery.Node> nodes = null;
 
       loop:
@@ -132,7 +132,7 @@ public class EventStandingsQuery_ResponseAdapter {
 
     @Override
     public EventStandingsQuery.Node fromJson(JsonReader reader,
-											 CustomScalarAdapters customScalarAdapters) throws IOException {
+        CustomScalarAdapters customScalarAdapters) throws IOException {
       Integer placement = null;
       EventStandingsQuery.Entrant entrant = null;
 
@@ -169,7 +169,7 @@ public class EventStandingsQuery_ResponseAdapter {
 
     @Override
     public EventStandingsQuery.Entrant fromJson(JsonReader reader,
-												CustomScalarAdapters customScalarAdapters) throws IOException {
+        CustomScalarAdapters customScalarAdapters) throws IOException {
       String id = null;
       String name = null;
 

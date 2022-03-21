@@ -9,6 +9,7 @@ import com.apollographql.apollo3.api.CompiledArgument;
 import com.apollographql.apollo3.api.CompiledField;
 import com.apollographql.apollo3.api.CompiledListType;
 import com.apollographql.apollo3.api.CompiledSelection;
+import com.apollographql.apollo3.api.CompiledVariable;
 import com.apollographql.apollo3.api.ImmutableMapBuilder;
 import com.presidium.smashtourney.dao.type.Entrant;
 import com.presidium.smashtourney.dao.type.Event;
@@ -43,6 +44,6 @@ public class EventStandingsQuerySelections {
   );
 
   public static List<CompiledSelection> root = Arrays.asList(
-    new CompiledField.Builder("event", Event.type).arguments(Arrays.asList(new CompiledArgument("id", 78790, false))).selections(event).build()
+    new CompiledField.Builder("event", Event.type).arguments(Arrays.asList(new CompiledArgument("id", new CompiledVariable("eventId"), false))).selections(event).build()
   );
 }

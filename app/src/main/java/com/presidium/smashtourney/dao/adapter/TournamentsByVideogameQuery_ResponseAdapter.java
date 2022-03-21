@@ -27,7 +27,7 @@ public class TournamentsByVideogameQuery_ResponseAdapter {
 
     @Override
     public TournamentsByVideogameQuery.Data fromJson(JsonReader reader,
-													 CustomScalarAdapters customScalarAdapters) throws IOException {
+        CustomScalarAdapters customScalarAdapters) throws IOException {
       TournamentsByVideogameQuery.Tournaments tournaments = null;
 
       loop:
@@ -58,7 +58,7 @@ public class TournamentsByVideogameQuery_ResponseAdapter {
 
     @Override
     public TournamentsByVideogameQuery.Tournaments fromJson(JsonReader reader,
-															CustomScalarAdapters customScalarAdapters) throws IOException {
+        CustomScalarAdapters customScalarAdapters) throws IOException {
       List<TournamentsByVideogameQuery.Node> nodes = null;
 
       loop:
@@ -89,7 +89,7 @@ public class TournamentsByVideogameQuery_ResponseAdapter {
 
     @Override
     public TournamentsByVideogameQuery.Node fromJson(JsonReader reader,
-													 CustomScalarAdapters customScalarAdapters) throws IOException {
+        CustomScalarAdapters customScalarAdapters) throws IOException {
       String id = null;
       String name = null;
       String slug = null;

@@ -1,24 +1,16 @@
 package com.presidium.smashtourney;
 
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.presidium.smashtourney.domain.QueryRetrieval;
-
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
+import androidx.appcompat.widget.Toolbar;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -29,8 +21,15 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		versionView = findViewById(R.id.versionNumber);
+		NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+		NavController navController = navHostFragment.getNavController();
 
+		versionView = findViewById(R.id.versionNumber);
+		Toolbar toolbar = findViewById(R.id.toolbar);
+		AppBarConfiguration appBarConfiguration =
+				new AppBarConfiguration.Builder(navController.getGraph()).build();
+		NavigationUI.setupWithNavController(
+				toolbar, navController, appBarConfiguration);
 	}
 
 	@Override

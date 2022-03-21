@@ -12,20 +12,21 @@ import com.apollographql.apollo3.api.ObjectAdapter;
 import com.apollographql.apollo3.api.Query;
 import com.apollographql.apollo3.api.json.JsonWriter;
 import com.presidium.smashtourney.dao.adapter.EventStandingsQuery_ResponseAdapter;
+import com.presidium.smashtourney.dao.adapter.EventStandingsQuery_VariablesAdapter;
 import com.presidium.smashtourney.dao.selections.EventStandingsQuerySelections;
 
 import java.io.IOException;
 import java.util.List;
 
 public class EventStandingsQuery implements Query<EventStandingsQuery.Data> {
-  public static final String OPERATION_ID = "e72d60a205404f88b457f7629a8410fa6a1f11f64918c1e6d96749348f34cf00";
+  public static final String OPERATION_ID = "e0c65801e8f6d92535b2edad28ab5727d0f429a301c9cee132edfa0c1e320a8e";
 
   /**
    * The minimized GraphQL document being sent to the server to save a few bytes.
    * The un-minimized version is:
    *
-   * query EventStandings {
-   *   event(id: 78790) {
+   * query EventStandings($eventId: ID!) {
+   *   event(id: $eventId) {
    *     id
    *     name
    *     standings(query: {
@@ -44,9 +45,11 @@ public class EventStandingsQuery implements Query<EventStandingsQuery.Data> {
    *   }
    * }
    */
-  public static final String OPERATION_DOCUMENT = "query EventStandings { event(id: 78790) { id name standings(query: { perPage: 3 page: 1 } ) { nodes { placement entrant { id name } } } } }";
+  public static final String OPERATION_DOCUMENT = "query EventStandings($eventId: ID!) { event(id: $eventId) { id name standings(query: { perPage: 3 page: 1 } ) { nodes { placement entrant { id name } } } } }";
 
   public static final String OPERATION_NAME = "EventStandings";
+
+  public final String eventId;
 
   private transient volatile int $hashCode;
 
@@ -54,8 +57,12 @@ public class EventStandingsQuery implements Query<EventStandingsQuery.Data> {
 
   private transient volatile String $toString;
 
-  public EventStandingsQuery() {
+  public EventStandingsQuery(String eventId) {
+    this.eventId = eventId;
+  }
 
+  public EventStandingsQuery() {
+    this.eventId = "eventId";
   }
 
   @Override
@@ -64,7 +71,8 @@ public class EventStandingsQuery implements Query<EventStandingsQuery.Data> {
       return true;
     }
     if (o instanceof EventStandingsQuery) {
-      return true;
+      EventStandingsQuery that = (EventStandingsQuery) o;
+      return ((this.eventId == null) ? (that.eventId == null) : this.eventId.equals(that.eventId));
     }
     return false;
   }
@@ -73,6 +81,8 @@ public class EventStandingsQuery implements Query<EventStandingsQuery.Data> {
   public int hashCode() {
     if (!$hashCodeMemoized) {
       int h = 1;
+      h *= 1000003;
+      h ^= (eventId == null) ? 0 : eventId.hashCode();
       $hashCode = h;
       $hashCodeMemoized = true;
     }
@@ -82,8 +92,7 @@ public class EventStandingsQuery implements Query<EventStandingsQuery.Data> {
   @Override
   public String toString() {
     if ($toString == null) {
-      $toString = "EventStandingsQuery{"
-        + "}";
+      $toString = OPERATION_DOCUMENT;
     }
     return $toString;
   }
@@ -106,7 +115,7 @@ public class EventStandingsQuery implements Query<EventStandingsQuery.Data> {
   @Override
   public void serializeVariables(JsonWriter writer, CustomScalarAdapters customScalarAdapters)
       throws IOException {
-    // This operation doesn't have any variable
+    EventStandingsQuery_VariablesAdapter.INSTANCE.toJson(writer, customScalarAdapters, this);
   }
 
   @Override

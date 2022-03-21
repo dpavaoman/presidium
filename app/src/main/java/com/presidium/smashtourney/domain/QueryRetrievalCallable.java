@@ -1,11 +1,9 @@
 package com.presidium.smashtourney.domain;
 
-import com.presidium.smashtourney.QueryBuilder;
+import com.apollographql.apollo3.api.Query;
 import com.presidium.smashtourney.Util.ProjectConstants;
-import com.presidium.smashtourney.dao.queries.EventStandingsQueryString;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -15,28 +13,28 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import com.presidium.smashtourney.dao.EventStandingsQuery;
+import com.presidium.smashtourney.dao.EventsByTournamentQuery;
+import com.presidium.smashtourney.dao.TournamentsByVideogameQuery;
+import com.presidium.smashtourney.dao.queries.TournamentsByTitleQuery;
 import com.presidium.smashtourney.dao.searchResults.SearchResult;
 
 
-public class QueryRetrieval implements Callable<SearchResult[]> {
+public class QueryRetrievalCallable implements Callable<SearchResult[]> {
 
-	public QueryRetrieval(Map<String, String> variables, String query, String queryType) {
+	public <T extends Query.Data> QueryRetrievalCallable(Map<String, String> variables, Query<T> query) {
 		this.variables = variables;
 		this.query = query;
-		this.queryType = queryType;
 	}
 
 	private final OkHttpClient httpClient = new OkHttpClient();
 	private final QueryBuilder queryBuilder = new QueryBuilder();
 	final Map<String, String> variables;
-	final String query;
-	final String queryType;
+	final Query<?> query;
 
 	@Override
 	public SearchResult[] call() {
 
-		EventStandingsQuery.Data queryData = null;
-		FormBody.Builder bodyBuilder = new FormBody.Builder().add("query", query);
+		FormBody.Builder bodyBuilder = new FormBody.Builder().add("query", query.toString());
 		for (Map.Entry<String, String> variable : variables.entrySet()) {
 			bodyBuilder.add("variables", String.format("{ \"%s\" : \"%s\" }", variable.getKey(), variable.getValue()));
 		}
@@ -52,11 +50,14 @@ public class QueryRetrieval implements Callable<SearchResult[]> {
 		while (count < 3){
 			try {
 				response = httpClient.newCall(request).execute();
-				if (queryType.equals("tournament")) {
+				if (query instanceof TournamentsByVideogameQuery) {
 					return queryBuilder.parseTournamentSearchResponse(response.body().string());
 				}
+				else if (query instanceof EventsByTournamentQuery){
+					return queryBuilder.parseEventByTournamentResponse(response.body().string());
+				}
 				else {
-					return queryBuilder.parseEventStandingsResponse(response.body().string());
+					return queryBuilder.parseStandingsResponse(response.body().string());
 				}
 			} catch (IOException | NullPointerException e) {
 				e.printStackTrace();

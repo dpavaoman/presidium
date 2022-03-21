@@ -16,14 +16,17 @@
         <argument
                 android:name="searchResult"
                 app:argType="com.presidium.smashtourney.dao.searchResults.SearchResult[]" />
+        <action
+                android:id="@+id/action_searchResultFragment_self"
+                app:destination="@id/searchResultFragment" />
     </fragment>
     <fragment
-            android:id="@+id/eventSearchFragment"
-            android:name="com.presidium.smashtourney.EventSearchFragment"
-            android:label="fragment_event_search"
-            tools:layout="@layout/fragment_event_search" >
+            android:id="@+id/standingsSearchFragment"
+            android:name="com.presidium.smashtourney.StandingsSearchFragment"
+            android:label="fragment_standings_search"
+            tools:layout="@layout/fragment_standings_search">
         <action
-                android:id="@+id/action_eventSearchFragment_to_searchResultFragment"
+                android:id="@+id/action_standingsSearchFragment_to_searchResultFragment"
                 app:destination="@id/searchResultFragment" />
     </fragment>
     <fragment
@@ -32,14 +35,18 @@
             android:label="fragment_main"
             tools:layout="@layout/fragment_main" >
         <action
-                android:id="@+id/action_mainFragment_to_eventSearchFragment"
-                app:destination="@id/eventSearchFragment"
+                android:id="@+id/action_mainFragment_to_standingsSearchFragment"
+                app:destination="@id/standingsSearchFragment"
                 app:enterAnim="@anim/nav_default_pop_enter_anim" />
         <action
                 android:id="@+id/action_mainFragment_to_tournamentSearchFragment"
                 app:destination="@id/tournamentSearchFragment" />
     </fragment>
-    <fragment android:id="@+id/tournamentSearchFragment" >
+    <fragment
+            android:id="@+id/tournamentSearchFragment"
+            android:name="com.presidium.smashtourney.TournamentSearchFragment"
+            android:label="Tournaments"
+            tools:layout="@layout/fragment_tournament_search">
         <action
                 android:id="@+id/action_tournamentSearchFragment_to_searchResultFragment"
                 app:destination="@id/searchResultFragment" />

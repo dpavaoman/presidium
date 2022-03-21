@@ -1,17 +1,25 @@
 package com.presidium.smashtourney;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.presidium.smashtourney.dao.searchResults.ResultType;
 import com.presidium.smashtourney.dao.searchResults.SearchResult;
 import com.presidium.smashtourney.databinding.FragmentSearchResultBinding;
+import com.presidium.smashtourney.domain.QueryRetrievalService;
+import com.presidium.smashtourney.dao.EventsByTournamentQuery;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link SearchResult}.
- * TODO: Replace the implementation with code for your data type.
  */
 public class SearchResultsRecyclerViewAdapter extends RecyclerView.Adapter<SearchResultsRecyclerViewAdapter.ViewHolder> {
 
@@ -30,8 +38,8 @@ public class SearchResultsRecyclerViewAdapter extends RecyclerView.Adapter<Searc
 
 	@Override
 	public void onBindViewHolder(final ViewHolder holder, int position) {
-		holder.mItem = results[position];
-		holder.mIdView.setText(results[position].getName());
+		holder.searchResult = results[position];
+		holder.idView.setText(results[position].getName());
 	}
 
 	@Override
@@ -40,12 +48,35 @@ public class SearchResultsRecyclerViewAdapter extends RecyclerView.Adapter<Searc
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
-		public final TextView mIdView;
-		public SearchResult mItem;
+		public final TextView idView;
+		public SearchResult searchResult;
 
 		public ViewHolder(FragmentSearchResultBinding binding) {
 			super(binding.getRoot());
-			mIdView = binding.itemNumber;
+			View view = binding.getRoot();
+				view.setOnClickListener(new View.OnClickListener() {
+
+					@Override
+					public void onClick(View view) {
+						if (searchResult.getResultType() == ResultType.TOURNAMENT) {
+
+							QueryRetrievalService service = new QueryRetrievalService();
+							Map<String, String> variables = new HashMap<>();
+							variables.put("tournamentId", searchResult.getId());
+							SearchResult[] finalResult = service.getSearchResults(variables, new EventsByTournamentQuery());
+
+							try {
+								NavDirections action = SearchResultFragmentDirections.actionSearchResultFragmentSelf(finalResult);
+								Navigation.findNavController(view).navigate(action);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				});
+
+
+			idView = binding.itemNumber;
 		}
 
 		@Override
