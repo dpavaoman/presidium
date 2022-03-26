@@ -1,0 +1,12 @@
+query EventsByTournament ($tournamentId: ID!) {
+    tournament(id: $tournamentId) {
+        id
+        events{
+            name
+            videogame {
+                id
+            }
+            id
+        }
+    }
+}

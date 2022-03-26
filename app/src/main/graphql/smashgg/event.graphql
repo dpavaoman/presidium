@@ -1,5 +1,5 @@
-query EventStandings {
-    event(id: 78790) {
+query StandingsByEvent ($eventId:ID!) {
+    event(id: $eventId) {
         id
         name
         standings(query: {
