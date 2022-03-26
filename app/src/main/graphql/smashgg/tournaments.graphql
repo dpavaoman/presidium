@@ -1,4 +1,4 @@
-query TournamentsByVideogame {
+query TournamentsByVideogame($videogameId: ID!) {
     tournaments(query: {
         perPage: 3
         page: 1
@@ -6,7 +6,7 @@ query TournamentsByVideogame {
         filter: {
             past: false
             videogameIds: [
-                1
+                $videogameId
             ]
         }
     }) {

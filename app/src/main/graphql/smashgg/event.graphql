@@ -1,4 +1,4 @@
-query EventStandings ($eventId:ID!) {
+query StandingsByEvent ($eventId:ID!) {
     event(id: $eventId) {
         id
         name
