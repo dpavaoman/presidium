@@ -57,6 +57,8 @@ class TournamentSearchRecycleViewAdapter(private val titles: Array<Title?>) :
                     val finalResult = apolloClient.query(TournamentsByVideogameQuery(title.id.toString()))
                         .execute()
                     val resultList: ArrayList<SearchResult> = ArrayList()
+                    val searchQuery = SearchResult(title.id.toString(), ResultType.TITLE, title.longName)
+                    resultList.add(searchQuery)
                     finalResult.data?.tournaments?.nodes?.forEach {
                         val result = SearchResult(it?.id, ResultType.TOURNAMENT, it?.name)
                         resultList.add(result)

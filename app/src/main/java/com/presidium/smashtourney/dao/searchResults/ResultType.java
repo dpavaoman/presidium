@@ -4,6 +4,7 @@ public enum ResultType {
 
 	EVENT("EVENT"),
 	TOURNAMENT("TOURNAMENT"),
+	TITLE("TITLE"),
 	STANDING("STANDING");
 
 	public String resultType;

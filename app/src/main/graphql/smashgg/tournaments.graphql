@@ -2,9 +2,9 @@ query TournamentsByVideogame($videogameId: ID!) {
     tournaments(query: {
         perPage: 3
         page: 1
-        sortBy: "startAt asc"
+        sortBy: "startAt desc"
         filter: {
-            past: false
+            past: true
             videogameIds: [
                 $videogameId
             ]
